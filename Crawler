@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=IE11">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <style>
+        table {
+            border: 1px solid #000;
+            font-family: 微軟正黑體;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #000;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #009FCC;
+            padding: 10px;
+            border: 1px solid #000;
+            color: #fff;
+        }
+
+        td {
+            border: 1px solid #000;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <br/>
+    
+    <div>
+        <table id="FBList" style="width: 80%">
+            <tr>
+                <th style="width:50%">URL</th>
+                <th>名稱</th>
+                <th>讚數</th>
+                <th>順序</th>
+            </tr>
+        </table>
+        <h1 id="d1"></h1>
+        <button id="btn" onclick="get()">一鍵生成</button>
+    </div>
+
+    <script>
+         var tbale = document.getElementById("FBList");
+        function get(){        
+            document.getElementById('btn').style.display = 'none'; 
+            document.getElementById('d1').innerHTML = '等一下...';                     
+            fb.forEach(myFunction);
+        }
+
+        function myFunction(item, index) {
+            $.get(item, function (result) {
+                var name = result.split("pageTitle")[1].split(">")[1].split("首頁")[0];
+                var count = result.split("用戶")[1].split("span")[3].split(">")[1].split("個")[0];
+                //console.log("Name:" + name + "\count:" + count);
+                tbale.innerHTML = tbale.innerHTML + "<tr><td>" + item + "</td><td>" + name + "</td><td>" + count + "</td><td>" +index+   "</td></tr>"             
+                var tablelenght=tbale.rows.length;
+                if (fb.length+1 == tablelenght) { 
+                    document.getElementById('d1').innerHTML = '結束';                     
+                    }
+                console.log("l:" + tablelenght + "\index:" + index);
+            });
+        }
+        var fb = [
+            "https://www.facebook.com/00FF77/",
+            "https://www.facebook.com/liketaitai/",
+            "https://www.facebook.com/Dr.HC.Wang/",
+            "https://www.facebook.com/Dr.TN.Huang/",
+            "https://www.facebook.com/WithGaLoveTaiwan/"];
+
+
+    </script>
+</body>
+
+</html>
